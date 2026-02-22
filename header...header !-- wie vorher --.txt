@@ -1,0 +1,39 @@
+<header>...</header> <!-- wie vorher -->
+<nav>...</nav>       <!-- wie vorher -->
+<main>
+  <div id="skinMakerContainer" style="width:400px; height:400px; margin:0 auto;"></div>
+  <button id="saveSkin">Skin speichern</button>
+</main>
+<div id="skinlist"></div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/examples/js/loaders/TextureLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/minecraft-skin-three@1.0.3/dist/minecraft-skin-three.min.js"></script>
+
+<script>
+const container = document.getElementById('skinMakerContainer');
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+renderer.setSize(400,400);
+container.appendChild(renderer.domElement);
+
+const loader = new MinecraftSkinViewer.SkinViewer(container, {
+  width: 400,
+  height: 400,
+  skin: 'default_skin.png', // Platzhalter
+  zoom:1.5,
+  backgroundColor: 0x00000000
+});
+
+function animate(){
+  requestAnimationFrame(animate);
+  loader.model.rotation.y += 0.01;
+  renderer.render(scene,camera);
+}
+animate();
+
+// Skin speichern
+document.getElementById('saveSkin').addEventListener('click',()=>{
+    loader.exportSkin(); // exportiert Skin als PNG zum Download
+});
+</script>
